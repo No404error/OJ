@@ -22,17 +22,18 @@ int build(int L1,int R1,int L2,int R2){
 void dfs(int u,int sum){
     sum+=u;
     if(!rch[u]&&!lch[u]){ //到达叶子
-        if(ans>sum||(ans==sum&&anst>u)) {ans=sum;anst=u;}
+        if(ans>sum||(ans==sum&&anst>u)) {ans=sum;anst=u;} 
+        //当总和小于sum时或总和相等但叶子值大于当前的叶子值，就改值
     }
-    if(rch[u]) dfs(rch[u],sum);
-    if(lch[u]) dfs(lch[u],sum);
+    if(rch[u]) dfs(rch[u],sum); //遍历右子树
+    if(lch[u]) dfs(lch[u],sum); //遍历左子树
 }
 int main(){
     while(read(in_order)){
         read(post_order);
         build(0,n-1,0,n-1);
         ans=INT_MAX;
-        dfs(post_order[n-1],0);
+        dfs(post_order[n-1],0); //从根遍历
         cout<<anst<<endl;
     }
     return 0;
