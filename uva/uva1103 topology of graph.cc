@@ -47,7 +47,7 @@ int main(){
         sort(ans.begin(),ans.end()); //按字典序来排序
         printf("Case %d: ",++num);
         for(auto p:ans) printf("%c",p);
+        printf("\n");
     }
-    
     return 0;
 }
