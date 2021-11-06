@@ -13,11 +13,12 @@ void trans(){
     }
 }
 void dfs(int x,int y,char tag){ //两种模式
-    if(tag=='0') {img1[x][y]='0';img2[x+1][y+1]='1';} //tag为0，向img2填充图片，并清理img1的图片
+    if(tag=='0') img1[x][y]='0';
+    if(tag=='0') img2[x+1][y+1]='1';//tag为0，向img2填充图片，并清理img1的图片
     else img2[x][y]='1'; //tag==1，把img2的白洞涂黑
     int xt,yt,h,w;
     for(int dx=-1;dx<=1;dx++) for(int dy=-1;dy<=1;dy++){ //向四周蔓延
-        if(!dx&&!dy) continue;
+        if(dx==0&&dy==0) continue;
         xt=x+dx;yt=y+dy; 
         h=(tag=='1')?H+2:H; w=(tag=='1')?4*W+2:4*W; //范围
         if(xt>=0&&xt<h&&yt>=0&&yt<w) //未越界
@@ -28,7 +29,7 @@ void dfs(int x,int y,char tag){ //两种模式
 int main(){
     int num=0;
     trans();
-    while (cin>>H>>W&&H){
+    while (cin>>H>>W&&H&&W){
         vector<char> ans;
         for(int i=0;i<H;i++){
             cin>>s;
@@ -36,13 +37,16 @@ int main(){
             for(int j=0;j<s.size();j++) img1[i].append(mp[s[j]]); //填充
         }
         for(int i=0;i<H;i++) for(int j=0;j<4*W;j++){
-            if(img1[i][j]=='1') for(int i=0;i<H+2;i++) img2[i]=string(4*W+2,'0'); //填充img2
-            dfs(i,j,'0');
-            int cnt=0; 
-            for(int i2=0;i2<H+2;i2++) for(int j2=0;j2<4*W+2;j2++){
-                if(img2[i2][j2]=='0') {cnt++;dfs(i2,j2,'1');} //计算img2的白洞数量
+            if(img1[i][j]=='1') {
+                for(int i=0;i<H+2;i++) img2[i]=string(4*W+2,'0'); //填充img2
+                dfs(i,j,'0');
+                int cnt=0; 
+                for(int i2=0;i2<H+2;i2++) for(int j2=0;j2<4*W+2;j2++){
+                    if(img2[i2][j2]=='0') {cnt++;dfs(i2,j2,'1');} //计算img2的白洞数量
+                }
+            
+            ans.push_back(hol[cnt-1]);
             }
-            ans.push_back(hol[cnt]);
         }
         sort(ans.begin(),ans.end()); //按字典序来排序
         printf("Case %d: ",++num);
