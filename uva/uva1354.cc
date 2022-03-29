@@ -2,6 +2,7 @@
 #include<vector>
 #include<cstring>
 using namespace std;
+//自顶向下(回溯法),集合运算,记录数组
 
 const int maxn=6;
 
